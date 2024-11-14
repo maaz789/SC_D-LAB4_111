@@ -1,0 +1,63 @@
+// Maaz hussain 111
+import java.util.List;
+import java.util.Scanner;
+class RollNumberTable extends Thread {
+    private int number;
+    private List<String> table;
+    public RollNumberTable(int number) {
+        this.number = number;
+    }
+    public List<String> getTable() {
+        return table;
+    }
+    @Override
+    public void run() {
+        for (int i = 1; i <= 10; i++) {
+            table.add(number + " x " + i + " = " + (number * i));
+        }
+    }
+}
+class BirthdateTable extends Thread {
+    private int number;
+    private List<String> table;
+    public BirthdateTable(int number) {
+        this.number = number;
+    }
+    public List<String> getTable() {
+        return table;
+    }
+    @Override
+    public void run() {
+        for (int i = 1; i <= 10; i++) {
+            table.add(number + " x " + i + " = " + (number * i));
+        }
+    }
+}
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter the roll number (e.g., 2022F-BSE-111): ");
+        String rollNumberInput = scanner.nextLine();
+        String[] rollNumberParts = rollNumberInput.split("-");
+        int rollNumber = Integer.parseInt(rollNumberParts[2]);
+
+        System.out.print("Enter the birthdate (e.g., 11-March): ");
+        String birthdateInput = scanner.nextLine();
+        int birthdateNumber = Integer.parseInt(birthdateInput.split("-")[0]);
+
+        RollNumberTable rollTable = new RollNumberTable(rollNumber);
+        BirthdateTable birthTable = new BirthdateTable(birthdateNumber);
+
+        rollTable.start();
+        birthTable.start();
+        List<String> rollTableData = rollTable.getTable();
+        List<String> birthTableData = birthTable.getTable();
+
+        System.out.printf("%-20s\t%-20s\n", "Roll Number Table (" + rollNumber + ")", "Birthdate Table (" + birthdateNumber + ")");
+        System.out.println("-----------------------------------------------------");
+
+        for (int i = 0; i < 10; i++) {
+            System.out.printf("%-20s\t%-20s\n", rollTableData.get(i), birthTableData.get(i));
+        }
+    }
+}
